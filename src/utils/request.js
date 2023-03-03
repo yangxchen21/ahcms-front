@@ -6,7 +6,11 @@ const service=axios.create({
 service.interceptors.request.use(config=>{
     return config
 })
-service.interceptors.request.use(res=>{
-    return res
+service.interceptors.response.use(res=>{
+   
+    if(res.status===200){
+        return res.data
+    }
+    return res.data
 })
 export default service
