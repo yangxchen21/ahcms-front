@@ -32,22 +32,32 @@
       <el-button @click="clickRegiserBtn" class="btn-item">注册</el-button>
     </el-button-group>
   </el-menu>
-  <router-view/>
+  <section :class="{'left-section':!hasRight,'left-section-has-right':hasRight}"><router-view/></section>
+  <section class="right-section" v-if="hasRight"><right-section @selectArticle="viewArticle"></right-section></section>
+  
 </template>
 <script setup>
-import { onMounted, ref ,watch} from 'vue'
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
+import {onMounted, ref, computed, watch} from 'vue'
+import {  useRoute, useRouter } from 'vue-router'
+import RightSection from '@/components/common/RightSection.vue'
 const router = useRouter()
 const route =useRoute()
 const activeIndex = ref('/home')
-
+const hasRight=ref(false)
 const clickRegiserBtn = () => {
   router.push('/register')
 }
 const login = () => {
   router.push('/login')
 }
+const viewArticle=(id)=>{
 
+  router.push("/article/"+id)
+}
+watch(()=>route.path,(p)=>{
+  if(p!=='/home') hasRight.value=true
+  else hasRight.value=false
+})
 onMounted(()=>{
   activeIndex.value=route.path
 })
@@ -79,4 +89,19 @@ onMounted(()=>{
   margin-left: 100px;
   margin-right: 50px;
 }
+.left-section{
+  width: 100vw;
+  padding: 0 100px;
+}
+.left-section-has-right {
+  float: left;
+  width: 65vw;
+  padding-left: 100px;
+}
+.right-section {
+  float: right;
+  width: 25vw;
+  margin-right: 50px;
+}
+
 </style>

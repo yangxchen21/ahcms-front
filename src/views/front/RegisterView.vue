@@ -82,7 +82,7 @@ const form = reactive({
 const getDepartmentList = () => {
   form.departmentId=''
   getDepartmentsBySchoolId(form.schoolId).then((res) => {
-    form.departments = res.data.data
+    form.departments = res.data
   })
 }
 const onSubmit = () => {
@@ -97,12 +97,12 @@ const onSubmit = () => {
     password: form.password
   }
   register(form).then((res) => {
-    
+    router.go(-1)
   })
 }
 onMounted(() => {
   getSchoolList().then((res) => {
-    form.schools = res.data.data
+    form.schools = res.data
   })
 })
 const clickCancelBtn=()=>{
